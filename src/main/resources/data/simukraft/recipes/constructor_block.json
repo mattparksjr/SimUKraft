@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "CNC",
+    "CCC"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "C": {
+      "tag": "forge:cobblestone"
+    },
+    "N": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "item": "simukraft:constructor_block"
+  }
+}
