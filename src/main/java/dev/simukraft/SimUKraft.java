@@ -1,14 +1,17 @@
 package dev.simukraft;
 
 import com.mojang.logging.LogUtils;
+import dev.simukraft.client.renderer.EntityFolkRenderer;
 import dev.simukraft.event.ModEvents;
 import dev.simukraft.event.ServerEvents;
 import dev.simukraft.init.ModBlocks;
+import dev.simukraft.init.ModEntities;
 import dev.simukraft.init.ModItems;
 import dev.simukraft.init.ModTileEntities;
 import dev.simukraft.net.ModPackets;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,10 +38,12 @@ public class SimUKraft {
         ModBlocks.BLOCKS.register(modEventBus);
 
         ModTileEntities.BLOCK_ENTITIES.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(ServerEvents.ForgeServerEvents.class);
         MinecraftForge.EVENT_BUS.register(ModEvents.class);
+
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
@@ -59,6 +64,11 @@ public class SimUKraft {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
+        }
+
+        @SubscribeEvent
+        public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(ModEntities.ENTITY_FOLK.get(), EntityFolkRenderer::new);
         }
     }
 }
