@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "simukraft:blocks/controller_block",
+    "side": "simukraft:blocks/controller_block",
+    "top": "simukraft:blocks/controller_block_top"
+  }
+}

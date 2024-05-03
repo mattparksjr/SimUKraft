@@ -1,7 +1,10 @@
 package dev.simukraft.net;
 
 import dev.simukraft.SimUKraft;
+import dev.simukraft.net.packet.CannotFindGroupS2CPacket;
+import dev.simukraft.net.packet.GroupUpdateS2CPacket;
 import dev.simukraft.net.packet.ReqDataC2SPacket;
+import dev.simukraft.net.packet.SyncCapUpdateS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -13,8 +16,6 @@ import org.apache.logging.log4j.core.jmx.Server;
 public class ModPackets {
 
     private static final String PROTOCOL_VERSION = "1";
-
-
     private static int id = 0;
 
     private static SimpleChannel INSTANCE;
@@ -32,6 +33,21 @@ public class ModPackets {
                 .decoder(ReqDataC2SPacket::new)
                 .encoder(ReqDataC2SPacket::toBytes)
                 .consumerMainThread(ReqDataC2SPacket::handle)
+                .add();
+        net.messageBuilder(GroupUpdateS2CPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(GroupUpdateS2CPacket::new)
+                .encoder(GroupUpdateS2CPacket::toBytes)
+                .consumerMainThread(GroupUpdateS2CPacket::handle)
+                .add();
+        net.messageBuilder(CannotFindGroupS2CPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(CannotFindGroupS2CPacket::new)
+                .encoder(CannotFindGroupS2CPacket::toBytes)
+                .consumerMainThread(CannotFindGroupS2CPacket::handle)
+                .add();
+        net.messageBuilder(SyncCapUpdateS2CPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncCapUpdateS2CPacket::new)
+                .encoder(SyncCapUpdateS2CPacket::toBytes)
+                .consumerMainThread(SyncCapUpdateS2CPacket::handle)
                 .add();
     }
 

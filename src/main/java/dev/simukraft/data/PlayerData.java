@@ -7,6 +7,29 @@ import java.util.UUID;
 public class PlayerData {
 
     private UUID groupID;
+    private boolean inGroup;
+
+    public void copyFrom(PlayerData data) {
+        this.groupID = data.getGroupID();
+    }
+
+    public void saveNBTData(CompoundTag tag) {
+        if(getGroupID() != null) {
+            tag.putBoolean("ingroup", true);
+            tag.putUUID("groupid", getGroupID());
+        } else {
+            tag.putInt("ingroup", 0);
+        }
+    }
+
+    public void loadNBTData(CompoundTag tag) {
+        if(tag.getBoolean("ingroup")) {
+            setInGroup(true);
+            setGroupID(tag.getUUID("groupid"));
+        } else {
+            setInGroup(false);
+        }
+    }
 
     public UUID getGroupID() {
         return groupID;
@@ -16,22 +39,11 @@ public class PlayerData {
         this.groupID = groupID;
     }
 
-    public void copyFrom(PlayerData data) {
-        this.groupID = data.getGroupID();
+    public void setInGroup(boolean inGroup) {
+        this.inGroup = inGroup;
     }
 
-    public void saveNBTData(CompoundTag tag) {
-        if(getGroupID() != null) {
-            tag.putInt("ingroup", 1);
-            tag.putUUID("groupid", getGroupID());
-        } else {
-            tag.putInt("ingroup", 0);
-        }
-    }
-
-    public void loadNBTData(CompoundTag tag) {
-        if(tag.getInt("ingroup") == 1) {
-            setGroupID(tag.getUUID("groupid"));
-        }
+    public boolean isInGroup() {
+        return inGroup;
     }
 }
