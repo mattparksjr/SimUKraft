@@ -22,7 +22,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = SimUKraft.MOD_ID)
+@Mod.EventBusSubscriber(modid = SimUKraft.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
     @SubscribeEvent
@@ -76,6 +76,8 @@ public class ModEvents {
                 }
             });
         }
+
+
     }
 
     @SubscribeEvent
@@ -86,6 +88,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public void onReload(AddReloadListenerEvent event) {
-        event.addListener(new DataReloadListener(new Gson(), "e"));
+        System.out.println("I AM CALLED I AM CALLED I AM CALLED");
+        event.addListener(new DataReloadListener());
     }
 }

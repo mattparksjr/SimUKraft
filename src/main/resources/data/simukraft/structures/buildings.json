@@ -1,0 +1,37 @@
+{
+  "replace": false,
+  "structures": [
+    {
+      "id": "simukraftr.structure.farmcow",
+      "name": "Cow Farm",
+      "category": "Industrial",
+      "_comment": "Remember that the resource location must be lowercase, as such, the structure file name must be too.",
+      "file": "farm/original",
+      "author": "Anonymous"
+    },
+    {
+      "id": "simukraftr.structure.farmsheep",
+      "name": "Sheep Farm",
+      "category": "Industrial",
+      "_comment": "Remember that the resource location must be lowercase, as such, the structure file name must be too.",
+      "file": "farm/original",
+      "author": "Anonymous"
+    },
+    {
+      "id": "simukraftr.structure.farmpig",
+      "name": "Pig Farm",
+      "category": "Industrial",
+      "_comment": "Remember that the resource location must be lowercase, as such, the structure file name must be too.",
+      "file": "farm/original",
+      "author": "Anonymous"
+    },
+    {
+      "id": "simukraftr.structure.chicken",
+      "name": "Chicken Farm",
+      "category": "Industrial",
+      "_comment": "Remember that the resource location must be lowercase, as such, the structure file name must be too.",
+      "file": "farm/original",
+      "author": "Anonymous"
+    }
+  ]
+}
