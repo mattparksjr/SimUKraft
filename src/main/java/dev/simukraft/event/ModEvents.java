@@ -87,7 +87,7 @@ public class ModEvents {
 
 
     @SubscribeEvent
-    public void onReload(AddReloadListenerEvent event) {
+    public static void onReload(AddReloadListenerEvent event) {
         System.out.println("I AM CALLED I AM CALLED I AM CALLED");
         event.addListener(new DataReloadListener());
     }
