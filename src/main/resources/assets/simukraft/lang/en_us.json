@@ -9,5 +9,6 @@
   "block.simukraft.miner_block": "Sim-U-Mining Block",
   "block.simukraft.farmer_block": "Sim-U-Farmer Block",
   "block.simukraft.controller_block": "Sim-U-Controller",
+  "block.simukraft.marker_block": "Marker",
   "block.simukraft.cheese_block": "Cheese Block"
 }

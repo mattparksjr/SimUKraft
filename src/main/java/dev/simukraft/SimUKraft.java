@@ -37,6 +37,9 @@ public class SimUKraft {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(ModPackets::register);
+        event.enqueueWork(() -> {
+            ModPackets.register();
+
+        });
     }
 }
