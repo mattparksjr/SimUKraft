@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Dynamic;
+import dev.simukraft.SimUKraft;
 import dev.simukraft.entities.folk.ai.FolkGoalPackages;
 import dev.simukraft.entities.folk.ai.FolkSchedule;
 import dev.simukraft.init.ModEntities;
@@ -34,6 +35,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.common.ForgeMod;
@@ -42,12 +45,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiPredicate;
 
 public class EntityFolk extends AgeableMob {
 
 
     private static final EntityDataAccessor<Integer> SKIN_ID = SynchedEntityData.defineId(EntityFolk.class, EntityDataSerializers.INT);
+    private static final Set<Item> WANTED_ITEMS = ImmutableSet.of(Items.BREAD, Items.POTATO, Items.CARROT, Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS);
 
     public static final Map<MemoryModuleType<GlobalPos>, BiPredicate<EntityFolk, Holder<PoiType>>> POI_MEMORIES = ImmutableMap.of(MemoryModuleType.HOME, (p_219625_, p_219626_) -> {
         return p_219626_.is(PoiTypes.HOME);
@@ -111,7 +116,6 @@ public class EntityFolk extends AgeableMob {
     }
 
     private void registerBrainGoals(Brain<EntityFolk> brain) {
-
         if (isBaby()) {
             // No work, IMPORTANT: IF YOU ADD A NEW ACTIVTY TO THE SCHEDULE YOU NEED TO ADD IT HERE
             brain.setSchedule(Schedule.EMPTY);
@@ -126,6 +130,7 @@ public class EntityFolk extends AgeableMob {
         brain.addActivity(Activity.REST, FolkGoalPackages.getIdlePackage(0.5F));
         brain.addActivity(Activity.PANIC, FolkGoalPackages.getPanicPackage(0.5F));
         brain.addActivity(Activity.MEET, FolkGoalPackages.getMeetPackage(0.5F));
+        brain.addActivity(Activity.IDLE, FolkGoalPackages.getIdlePackage(0.5F));
         brain.setDefaultActivity(Activity.IDLE);
         brain.setActiveActivityIfPossible(Activity.IDLE);
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
