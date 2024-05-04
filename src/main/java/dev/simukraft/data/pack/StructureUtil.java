@@ -16,6 +16,16 @@ import java.util.ArrayList;
 
 public class StructureUtil {
 
+    public static ArrayList<BlockState> getBuildingPalette(CompoundTag nbt, Level level) {
+        ArrayList<BlockState> palette = new ArrayList<>();
+        // load in palette (list of unique blockstates)
+        ListTag paletteNbt = nbt.getList("palette", 10);
+        for (int i = 0; i < paletteNbt.size(); i++) {
+            // TODO: FIX palette.add(NbtUtils.readBlockState(level.(ForgeRegistries.BLOCKS), paletteNbt.getCompound(i)));
+        }
+        return palette;
+    }
+
     public Vec3i getSize(Structure structure, Level level) {
         return getSize(structure.getFile(), level);
     }
@@ -30,16 +40,6 @@ public class StructureUtil {
         ListTag sizeData = nbt.getList("size", 3);
         return new Vec3i(sizeData.getInt(0), sizeData.getInt(1), sizeData.getInt(2));
 
-    }
-
-    public static ArrayList<BlockState> getBuildingPalette(CompoundTag nbt, Level level) {
-        ArrayList<BlockState> palette = new ArrayList<>();
-        // load in palette (list of unique blockstates)
-        ListTag paletteNbt = nbt.getList("palette", 10);
-        for (int i = 0; i < paletteNbt.size(); i++) {
-            // TODO: FIX palette.add(NbtUtils.readBlockState(level.(ForgeRegistries.BLOCKS), paletteNbt.getCompound(i)));
-        }
-        return palette;
     }
 
     public ArrayList<StructureBlock> getBuildingBlocks(Structure structure, Level level) {

@@ -8,8 +8,6 @@ import dev.simukraft.net.ModPackets;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.UUID;
@@ -40,7 +38,7 @@ public class ReqDataC2SPacket {
             SimGroup group = data.getGroupByID(groupID);
 
             SimUKraft.LOGGER.debug("Request Data Packet - Got group info, replying...");
-            if(group != null) {
+            if (group != null) {
                 SimUKraft.LOGGER.debug("Request Data Packet - sending group info now");
                 ModPackets.sendToPlayer(new GroupUpdateS2CPacket(group.getName(), group.getMoney(), group.getNumSims()), player);
             } else {

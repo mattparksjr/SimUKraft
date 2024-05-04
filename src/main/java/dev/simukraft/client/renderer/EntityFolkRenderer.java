@@ -4,21 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
 import dev.simukraft.client.models.EntityFolkModel;
 import dev.simukraft.entities.EntityFolk;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.scores.Objective;
-import net.minecraft.world.scores.Score;
-import net.minecraft.world.scores.Scoreboard;
 
 public class EntityFolkRenderer extends HumanoidMobRenderer<EntityFolk, EntityFolkModel> {
 
@@ -35,14 +28,14 @@ public class EntityFolkRenderer extends HumanoidMobRenderer<EntityFolk, EntityFo
             boolean flag = !pEntity.isDiscrete();
             float f = pEntity.getBbHeight() + 0.5F;
             pMatrixStack.pushPose();
-            pMatrixStack.translate(0.0D, (double)f, 0.0D);
+            pMatrixStack.translate(0.0D, f, 0.0D);
             pMatrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
             pMatrixStack.scale(-0.025F, -0.025F, 0.025F);
             Matrix4f matrix4f = pMatrixStack.last().pose();
             float f1 = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
-            int j = (int)(f1 * 255.0F) << 24;
+            int j = (int) (f1 * 255.0F) << 24;
             Font font = this.getFont();
-            float f2 = (float)(-font.width(pDisplayName) / 2);
+            float f2 = (float) (-font.width(pDisplayName) / 2);
             font.drawInBatch(pDisplayName, f2, 0, 553648127, false, matrix4f, pBuffer, flag, j, pPackedLight);
             if (flag) {
                 font.drawInBatch(pDisplayName, f2, 0, -1, false, matrix4f, pBuffer, false, 0, pPackedLight);

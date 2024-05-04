@@ -1,10 +1,8 @@
 package dev.simukraft.entities.block;
 
-import dev.simukraft.init.ModBlocks;
 import dev.simukraft.init.ModTileEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 

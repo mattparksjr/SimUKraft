@@ -11,9 +11,9 @@ import java.util.function.Supplier;
 
 public class SyncCapUpdateS2CPacket {
 
-    private UUID groupID;
+    private final UUID groupID;
 
-    private boolean inGroup;
+    private final boolean inGroup;
 
     public SyncCapUpdateS2CPacket(UUID groupID, boolean inGroup) {
         this.groupID = groupID;

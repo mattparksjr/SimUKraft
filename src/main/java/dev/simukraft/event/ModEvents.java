@@ -1,6 +1,5 @@
 package dev.simukraft.event;
 
-import com.google.gson.Gson;
 import dev.simukraft.SimUKraft;
 import dev.simukraft.data.PlayerData;
 import dev.simukraft.data.PlayerDataProvider;
@@ -70,6 +69,7 @@ public class ModEvents {
                 SimUKraft.LOGGER.debug("Player Join Event - Sending data");
                 ModPackets.sendToPlayer(new SyncCapUpdateS2CPacket(playerData.getGroupID(), playerData.isInGroup()), (ServerPlayer) event.getEntity());
 
+                // Send the player their current group data, used for overlay etc...
                 if (playerData.isInGroup()) {
                     SimGroup group = data.getGroupByID(playerData.getGroupID());
                     ModPackets.sendToPlayer(new GroupUpdateS2CPacket(group.getName(), group.getMoney(), group.getNumSims()), (ServerPlayer) event.getEntity());
@@ -88,7 +88,6 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onReload(AddReloadListenerEvent event) {
-        System.out.println("I AM CALLED I AM CALLED I AM CALLED");
         event.addListener(new DataReloadListener());
     }
 }

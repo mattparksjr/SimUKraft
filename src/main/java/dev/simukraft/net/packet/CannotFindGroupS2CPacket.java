@@ -4,10 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraftforge.common.data.SoundDefinition;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class CannotFindGroupS2CPacket {

@@ -15,6 +15,7 @@ public class Structure {
         this.file = file;
         this.author = author;
     }
+
     public String getId() {
         return id;
     }

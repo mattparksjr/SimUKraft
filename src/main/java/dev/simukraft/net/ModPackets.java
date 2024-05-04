@@ -11,7 +11,6 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-import org.apache.logging.log4j.core.jmx.Server;
 
 public class ModPackets {
 

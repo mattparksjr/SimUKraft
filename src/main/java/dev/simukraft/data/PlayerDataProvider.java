@@ -2,7 +2,6 @@ package dev.simukraft.data;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -21,7 +20,7 @@ public class PlayerDataProvider implements ICapabilityProvider, INBTSerializable
     private final LazyOptional<PlayerData> optional = LazyOptional.of(this::createPlayerData);
 
     private PlayerData createPlayerData() {
-        if(this.data == null) {
+        if (this.data == null) {
             this.data = new PlayerData();
         }
 
@@ -30,7 +29,7 @@ public class PlayerDataProvider implements ICapabilityProvider, INBTSerializable
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap == PLAYER_DATA) {
+        if (cap == PLAYER_DATA) {
             return optional.cast();
         }
         return LazyOptional.empty();

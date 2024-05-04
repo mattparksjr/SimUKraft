@@ -14,7 +14,7 @@ public class PlayerData {
     }
 
     public void saveNBTData(CompoundTag tag) {
-        if(getGroupID() != null) {
+        if (getGroupID() != null) {
             tag.putBoolean("ingroup", true);
             tag.putUUID("groupid", getGroupID());
         } else {
@@ -23,7 +23,7 @@ public class PlayerData {
     }
 
     public void loadNBTData(CompoundTag tag) {
-        if(tag.getBoolean("ingroup")) {
+        if (tag.getBoolean("ingroup")) {
             setInGroup(true);
             setGroupID(tag.getUUID("groupid"));
         } else {
@@ -39,11 +39,11 @@ public class PlayerData {
         this.groupID = groupID;
     }
 
-    public void setInGroup(boolean inGroup) {
-        this.inGroup = inGroup;
-    }
-
     public boolean isInGroup() {
         return inGroup;
+    }
+
+    public void setInGroup(boolean inGroup) {
+        this.inGroup = inGroup;
     }
 }
