@@ -7,6 +7,7 @@ import dev.simukraft.data.SimSavedData;
 import dev.simukraft.data.group.SimGroup;
 import dev.simukraft.data.pack.StructureReloadListener;
 import dev.simukraft.data.pack.NameReloadListener;
+import dev.simukraft.entities.EntityFolk;
 import dev.simukraft.net.ModPackets;
 import dev.simukraft.net.packet.GroupUpdateS2CPacket;
 import dev.simukraft.net.packet.SyncCapUpdateS2CPacket;
@@ -18,7 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -31,6 +34,14 @@ public class ModEvents {
             if (!event.getObject().getCapability(PlayerDataProvider.PLAYER_DATA).isPresent()) {
                 event.addCapability(new ResourceLocation(SimUKraft.MOD_ID, "properties"), new PlayerDataProvider());
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void despawn(LivingSpawnEvent.AllowDespawn event) {
+        if (event.getEntity() instanceof EntityFolk) {
+            event.setResult(Event.Result.DENY);
+            event.setCanceled(true);
         }
     }
 
