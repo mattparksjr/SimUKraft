@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DataReloadListener extends SimpleJsonResourceReloadListener {
+public class StructureReloadListener extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 
     public static List<Structure> structures = new ArrayList<>();
 
-    public DataReloadListener() {
+    public StructureReloadListener() {
         super(GSON, SimUKraft.MOD_ID);
     }
 

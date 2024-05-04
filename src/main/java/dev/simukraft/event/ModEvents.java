@@ -5,7 +5,8 @@ import dev.simukraft.data.PlayerData;
 import dev.simukraft.data.PlayerDataProvider;
 import dev.simukraft.data.SimSavedData;
 import dev.simukraft.data.group.SimGroup;
-import dev.simukraft.data.pack.DataReloadListener;
+import dev.simukraft.data.pack.StructureReloadListener;
+import dev.simukraft.data.pack.NameReloadListener;
 import dev.simukraft.net.ModPackets;
 import dev.simukraft.net.packet.GroupUpdateS2CPacket;
 import dev.simukraft.net.packet.SyncCapUpdateS2CPacket;
@@ -88,6 +89,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onReload(AddReloadListenerEvent event) {
-        event.addListener(new DataReloadListener());
+        event.addListener(new StructureReloadListener());
+        event.addListener(new NameReloadListener());
     }
 }
