@@ -7,7 +7,7 @@ import dev.simukraft.data.SimSavedData;
 import dev.simukraft.data.group.SimGroup;
 import dev.simukraft.data.pack.StructureReloadListener;
 import dev.simukraft.data.pack.NameReloadListener;
-import dev.simukraft.entities.EntityFolk;
+import dev.simukraft.entities.folk.EntityFolk;
 import dev.simukraft.net.ModPackets;
 import dev.simukraft.net.packet.GroupUpdateS2CPacket;
 import dev.simukraft.net.packet.SyncCapUpdateS2CPacket;

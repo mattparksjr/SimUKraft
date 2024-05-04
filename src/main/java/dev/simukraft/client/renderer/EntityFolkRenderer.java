@@ -3,7 +3,7 @@ package dev.simukraft.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
 import dev.simukraft.client.models.EntityFolkModel;
-import dev.simukraft.entities.EntityFolk;
+import dev.simukraft.entities.folk.EntityFolk;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;

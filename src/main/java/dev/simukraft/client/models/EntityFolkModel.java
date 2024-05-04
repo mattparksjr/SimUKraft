@@ -2,7 +2,7 @@ package dev.simukraft.client.models;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import dev.simukraft.entities.EntityFolk;
+import dev.simukraft.entities.folk.EntityFolk;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;

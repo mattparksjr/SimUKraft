@@ -1,7 +1,7 @@
 package dev.simukraft.event;
 
 import dev.simukraft.SimUKraft;
-import dev.simukraft.entities.EntityFolk;
+import dev.simukraft.entities.folk.EntityFolk;
 import dev.simukraft.init.ModEntities;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

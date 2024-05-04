@@ -1,6 +1,7 @@
 package dev.simukraft;
 
 import com.mojang.logging.LogUtils;
+import dev.simukraft.entities.folk.ai.FolkSchedule;
 import dev.simukraft.init.*;
 import dev.simukraft.net.ModPackets;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,6 +29,7 @@ public class SimUKraft {
 
         ModTileEntities.BLOCK_ENTITIES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
+        FolkSchedule.FOLK_SCHEDULE.register(modEventBus);
 
         ModSounds.register(modEventBus);
 
