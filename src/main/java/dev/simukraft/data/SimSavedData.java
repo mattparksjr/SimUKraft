@@ -74,8 +74,6 @@ public class SimSavedData extends SavedData {
     public SimGroup getGroupByID(UUID id) {
         SimGroup group = null;
         for (SimGroup data : groups) {
-            System.out.println(id);
-            System.out.println(data.getUuid());
             if (data.getUuid().equals(id)) {
                 group = data;
             }

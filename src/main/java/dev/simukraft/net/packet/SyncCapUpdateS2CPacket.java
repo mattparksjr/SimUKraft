@@ -35,8 +35,6 @@ public class SyncCapUpdateS2CPacket {
         context.enqueueWork(() -> {
             SimUKraft.LOGGER.debug("Sync Cap - setting");
             Minecraft.getInstance().player.getCapability(PlayerDataProvider.PLAYER_DATA).ifPresent(data -> {
-                SimUKraft.LOGGER.debug("Sync Cap - " + inGroup);
-                SimUKraft.LOGGER.debug("Sync Cap - " + groupID);
                 data.setInGroup(inGroup);
                 data.setGroupID(groupID);
             });

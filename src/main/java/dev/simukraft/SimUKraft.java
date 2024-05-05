@@ -1,10 +1,10 @@
 package dev.simukraft;
 
 import com.mojang.logging.LogUtils;
+import dev.simukraft.entities.folk.FolkDataSerializer;
 import dev.simukraft.entities.folk.ai.FolkSchedule;
 import dev.simukraft.init.*;
 import dev.simukraft.net.ModPackets;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -30,18 +30,15 @@ public class SimUKraft {
         ModTileEntities.BLOCK_ENTITIES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         FolkSchedule.FOLK_SCHEDULE.register(modEventBus);
+        FolkDataSerializer.DATA_SERIALIZERS.register(modEventBus);
 
         ModSounds.register(modEventBus);
-
-        MinecraftForge.EVENT_BUS.register(this);
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ModPackets.register();
-
         });
     }
 }

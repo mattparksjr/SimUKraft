@@ -14,10 +14,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class NameReloadListener extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
+    private static final Random ran = new Random();
 
     public static List<String> MALE_NAMES = new ArrayList<>();
     public static List<String> FEMALE_NAMES = new ArrayList<>();
@@ -60,5 +62,17 @@ public class NameReloadListener extends SimpleJsonResourceReloadListener {
                 SimUKraft.LOGGER.error("Couldn't read names list {} in data pack {}", location, res.sourcePackId(), ex);
             }
         }
+    }
+
+    public static String getRandomLastName() {
+        return  LAST_NAMES.get(ran.nextInt(LAST_NAMES.size()));
+    }
+
+    public static String getRandomFemaleName() {
+        return  FEMALE_NAMES.get(ran.nextInt(FEMALE_NAMES.size()));
+    }
+
+    public static String getRandomMaleName() {
+        return  MALE_NAMES.get(ran.nextInt(MALE_NAMES.size()));
     }
 }

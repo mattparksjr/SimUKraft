@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Dynamic;
-import dev.simukraft.SimUKraft;
 import dev.simukraft.entities.folk.ai.FolkGoalPackages;
 import dev.simukraft.entities.folk.ai.FolkSchedule;
 import dev.simukraft.init.ModEntities;
@@ -13,7 +12,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -46,18 +44,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.BiPredicate;
 
 public class EntityFolk extends AgeableMob {
 
-
-    private static final EntityDataAccessor<Integer> SKIN_ID = SynchedEntityData.defineId(EntityFolk.class, EntityDataSerializers.INT);
-    private static final Set<Item> WANTED_ITEMS = ImmutableSet.of(Items.BREAD, Items.POTATO, Items.CARROT, Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS);
-
     public static final Map<MemoryModuleType<GlobalPos>, BiPredicate<EntityFolk, Holder<PoiType>>> POI_MEMORIES = ImmutableMap.of(MemoryModuleType.HOME, (p_219625_, p_219626_) -> {
         return p_219626_.is(PoiTypes.HOME);
     }, MemoryModuleType.JOB_SITE, (p_219622_, p_219623_) -> {
-       // TODO REMOVED FOR TESTING return p_219622_.getVillagerData().getProfession().heldJobSite().test(p_219623_);
+        // TODO REMOVED FOR TESTING return p_219622_.getVillagerData().getProfession().heldJobSite().test(p_219623_);
         return true;
     }, MemoryModuleType.POTENTIAL_JOB_SITE, (p_219619_, p_219620_) -> {
         return VillagerProfession.ALL_ACQUIRABLE_JOBS.test(p_219620_);
@@ -65,6 +60,8 @@ public class EntityFolk extends AgeableMob {
         return p_219617_.is(PoiTypes.MEETING);
     });
 
+    private static final EntityDataAccessor<FolkData> FOLK_DATA = SynchedEntityData.defineId(EntityFolk.class, FolkDataSerializer.FOLK_DATA.get());
+    private static final Set<Item> WANTED_ITEMS = ImmutableSet.of(Items.BREAD, Items.POTATO, Items.CARROT, Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS);
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
             MemoryModuleType.JOB_SITE, MemoryModuleType.HOME, MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
             MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET,
@@ -82,6 +79,10 @@ public class EntityFolk extends AgeableMob {
         ((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(true);
         this.getNavigation().setCanFloat(true);
         this.setCanPickUpLoot(true);
+    }
+
+    public static AttributeSupplier.Builder getFolkAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0D).add(ForgeMod.NAMETAG_DISTANCE.get(), 20.0D);
     }
 
     @Override
@@ -141,7 +142,6 @@ public class EntityFolk extends AgeableMob {
         //  pVillagerBrain.addActivity(Activity.HIDE, VillagerGoalPackages.getHidePackage(villagerprofession, 0.5F));
     }
 
-
     // TODO: fix when aging added...
     protected void ageBoundaryReached() {
         super.ageBoundaryReached();
@@ -184,31 +184,29 @@ public class EntityFolk extends AgeableMob {
         setItemInHand(InteractionHand.MAIN_HAND, itemEntity.getItem());
     }
 
-    public static AttributeSupplier.Builder getFolkAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0D).add(ForgeMod.NAMETAG_DISTANCE.get(), 20.0D);
-    }
-
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        this.entityData.set(SKIN_ID, pCompound.getInt("Skin"));
+        this.entityData.set(FOLK_DATA, new FolkData(pCompound));
     }
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+        // TODO: Group ID needs to be set by the spawn
+        this.setFolkData(FolkData.generateNewFolk(UUID.randomUUID()));
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("Skin", this.getSkin());
+        this.getFolkData().writeToCompound(pCompound);
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(SKIN_ID, 1);
+        this.entityData.define(FOLK_DATA, new FolkData());
     }
 
     @Nullable
@@ -218,16 +216,21 @@ public class EntityFolk extends AgeableMob {
     }
 
     @Override
+    public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
+        return false;
+    }
+
+    @Override
     public void tick() {
         super.tick();
     }
 
-    public int getSkin() {
-        return this.entityData.get(SKIN_ID);
+    public FolkData getFolkData() {
+        return this.entityData.get(FOLK_DATA);
     }
 
-    public void setSkin(int skin) {
-        this.entityData.set(SKIN_ID, skin);
+    public void setFolkData(FolkData data) {
+        this.entityData.set(FOLK_DATA, data);
     }
 }
 
