@@ -1,28 +1,25 @@
-package dev.simukraft;
+package dev.simukraft.client;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import dev.simukraft.SimUKraft;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = SimUKraft.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Config {
+public class ClientConfig {
+
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
+    public static final ForgeConfigSpec.ConfigValue<Boolean> RENDER_OVERLAY;
+
+
     static {
-        BUILDER.push("Configuration for Sim-U-Kraft");
+        BUILDER.push("Client configuration for Sim-U-Kraft");
 
-
-        // TODO: add any configs
+        RENDER_OVERLAY = BUILDER.comment("Should we render the information overlay?")
+                .define("Render Overlay", true);
 
         BUILDER.pop();
         SPEC = BUILDER.build();

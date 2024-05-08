@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Dynamic;
+import dev.simukraft.SimUKraft;
 import dev.simukraft.entities.folk.ai.FolkGoalPackages;
 import dev.simukraft.entities.folk.ai.FolkSchedule;
 import dev.simukraft.init.ModEntities;
@@ -103,7 +104,7 @@ public class EntityFolk extends AgeableMob {
     }
 
     @Override
-    protected @NotNull Brain<?> makeBrain(Dynamic<?> pDynamic) {
+    protected @NotNull Brain<?> makeBrain(@NotNull Dynamic<?> pDynamic) {
         Brain<EntityFolk> brain = this.brainProvider().makeBrain(pDynamic);
         this.registerBrainGoals(brain);
         return brain;
@@ -119,7 +120,7 @@ public class EntityFolk extends AgeableMob {
     private void registerBrainGoals(Brain<EntityFolk> brain) {
         if (isBaby()) {
             // No work, IMPORTANT: IF YOU ADD A NEW ACTIVTY TO THE SCHEDULE YOU NEED TO ADD IT HERE
-            brain.setSchedule(Schedule.EMPTY);
+            brain.setSchedule(FolkSchedule.FOLK_TEST.get());
         } else {
             brain.setSchedule(FolkSchedule.FOLK_DEFAULT.get());
             // TODO: Change to job once complete.
@@ -191,9 +192,8 @@ public class EntityFolk extends AgeableMob {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        // TODO: Group ID needs to be set by the spawn
-        this.setFolkData(FolkData.generateNewFolk(UUID.randomUUID()));
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+        this.setFolkData(FolkData.generateNewFolk(getUUID()));
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
@@ -225,12 +225,21 @@ public class EntityFolk extends AgeableMob {
         super.tick();
     }
 
+    public void setFired() {
+        // TODO: obv stuff
+        getFolkData().setJobSite(null);
+    }
+
     public FolkData getFolkData() {
         return this.entityData.get(FOLK_DATA);
     }
 
     public void setFolkData(FolkData data) {
         this.entityData.set(FOLK_DATA, data);
+    }
+
+    public String getFullname() {
+        return getFolkData().getFullname();
     }
 }
 

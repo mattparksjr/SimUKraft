@@ -1,6 +1,7 @@
 package dev.simukraft.entities.folk;
 
 import dev.simukraft.data.pack.NameReloadListener;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -16,6 +17,10 @@ public class FolkData {
     private int gender;
     private int skinID;
 
+    private BlockPos jobSite;
+
+    private boolean hasJob;
+
     public FolkData(CompoundTag tag) {
         this.firstName = tag.getString("firstName");
         this.lastName = tag.getString("lastName");
@@ -26,6 +31,12 @@ public class FolkData {
         }
         this.gender = tag.getInt("gender");
         this.skinID = tag.getInt("skinId");
+
+        if (tag.contains("jobSite")) {
+            hasJob = true;
+            int[] coords = tag.getIntArray("jobSite");
+            this.jobSite = new BlockPos(coords[0], coords[1], coords[2]);
+        }
     }
 
     public FolkData(String firstName, String lastName, int age, UUID groupID, int gender, int skinID) {
@@ -45,7 +56,7 @@ public class FolkData {
 
         int gender = ran.nextInt(2);
         int skinId = 1; // TODO: TEMP, use rand when skins updated
-        String name = "";
+        String name;
 
         if (gender == 1) {
             name = NameReloadListener.getRandomFemaleName();
@@ -67,6 +78,14 @@ public class FolkData {
         pCompound.putUUID("groupId", getGroupID());
         pCompound.putInt("gender", getGender());
         pCompound.putInt("skinId", getSkinID());
+
+        if (jobSite != null) {
+            int[] coords = new int[3];
+            coords[0] = jobSite.getX();
+            coords[1] = jobSite.getY();
+            coords[2] = jobSite.getZ();
+            pCompound.putIntArray("jobSite", coords);
+        }
     }
 
     public void write(FriendlyByteBuf buf) {
@@ -76,10 +95,24 @@ public class FolkData {
         buf.writeUUID(getGroupID());
         buf.writeInt(getGender());
         buf.writeInt(getSkinID());
+        buf.writeBoolean(hasJob);
+        if(jobSite != null) {
+            buf.writeBlockPos(jobSite);
+        }
     }
 
     public static FolkData read(FriendlyByteBuf buf) {
-        return new FolkData(buf.readUtf(), buf.readUtf(), buf.readInt(), buf.readUUID(), buf.readInt(), buf.readInt());
+        FolkData data = new FolkData(buf.readUtf(), buf.readUtf(), buf.readInt(), buf.readUUID(), buf.readInt(), buf.readInt());
+
+        if(buf.readBoolean()) {
+            data.setJobSite(buf.readBlockPos());
+        }
+
+        return data;
+    }
+
+    public String getFullname() {
+        return this.getFirstName() + " " + getLastName();
     }
 
     public String getFirstName() {
@@ -128,5 +161,13 @@ public class FolkData {
 
     public void setSkinID(int skinID) {
         this.skinID = skinID;
+    }
+
+    public boolean hasJob() {
+        return hasJob;
+    }
+
+    public void setJobSite(BlockPos jobSite) {
+        this.jobSite = jobSite;
     }
 }

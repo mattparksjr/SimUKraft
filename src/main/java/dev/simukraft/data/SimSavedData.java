@@ -15,7 +15,7 @@ public class SimSavedData extends SavedData {
     private final ArrayList<SimGroup> groups;
 
     // used for first load
-    private boolean requiresSetup = false;
+    private boolean requiresSetup;
 
     public SimSavedData() {
         groups = new ArrayList<>();
@@ -67,6 +67,7 @@ public class SimSavedData extends SavedData {
     }
 
     public void addGroup(SimGroup group) {
+        SimUKraft.LOGGER.debug("SimSavedData - Added a group with {} players", group.getPlayerIDS());
         groups.add(group);
         setDirty();
     }

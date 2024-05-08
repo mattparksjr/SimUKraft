@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -57,6 +58,17 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public static void tick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) return;
+
+        SimSavedData data = event.getServer().overworld().getDataStorage().computeIfAbsent(SimSavedData::load, SimSavedData::create, "simukraft");
+
+        for (SimGroup group : data.getGroups()) {
+            group.tick(event);
+        }
+    }
+
+    @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity().level.isClientSide) return;
         if (event.getEntity().level != event.getEntity().getServer().overworld()) return;
@@ -70,7 +82,6 @@ public class ModEvents {
             SimUKraft.LOGGER.debug("Player Join Event - First time setup");
             SimGroup group = new SimGroup(event.getEntity().getName().getString() + "'s town", event.getEntity().getUUID());
             data.addGroup(group);
-            data.setDirty();
             event.getEntity().getCapability(PlayerDataProvider.PLAYER_DATA).ifPresent(playerData -> {
                 playerData.setGroupID(group.getUuid());
                 playerData.setInGroup(true);
@@ -84,12 +95,10 @@ public class ModEvents {
                 // Send the player their current group data, used for overlay etc...
                 if (playerData.isInGroup()) {
                     SimGroup group = data.getGroupByID(playerData.getGroupID());
-                    ModPackets.sendToPlayer(new GroupUpdateS2CPacket(group.getName(), group.getMoney(), group.getNumSims()), (ServerPlayer) event.getEntity());
+                    ModPackets.sendToPlayer(new GroupUpdateS2CPacket(group.getName(), group.getMoney(), group.getNumSims(), group.getUuid()), (ServerPlayer) event.getEntity());
                 }
             });
         }
-
-
     }
 
     @SubscribeEvent

@@ -8,6 +8,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +31,7 @@ public class NameReloadListener extends SimpleJsonResourceReloadListener {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
+    protected void apply(@NotNull Map<ResourceLocation, JsonElement> pObject, @NotNull ResourceManager pResourceManager, @NotNull ProfilerFiller pProfiler) {
         ResourceLocation male_names = new ResourceLocation(SimUKraft.MOD_ID, "folk/names_male.json");
         ResourceLocation female_names = new ResourceLocation(SimUKraft.MOD_ID, "folk/names_female.json");
         ResourceLocation last_names = new ResourceLocation(SimUKraft.MOD_ID, "folk/names_last.json");
@@ -44,6 +45,11 @@ public class NameReloadListener extends SimpleJsonResourceReloadListener {
         for (Resource res : manager.getResourceStack(location)) {
             try (InputStream is = res.open(); Reader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
                 JsonObject json = GsonHelper.fromJson(GSON, reader, JsonObject.class);
+
+                if(json == null) {
+                    SimUKraft.LOGGER.error("Failed to load json data for names in {} from the {} data pack", location, res.sourcePackId());
+                    return;
+                }
                 boolean replace = json.get("replace").getAsBoolean();
 
                 if (replace) {

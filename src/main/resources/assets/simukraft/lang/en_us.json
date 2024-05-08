@@ -10,5 +10,21 @@
   "block.simukraft.farmer_block": "Sim-U-Farmer Block",
   "block.simukraft.controller_block": "Sim-U-Controller",
   "block.simukraft.marker_block": "Marker",
-  "block.simukraft.cheese_block": "Cheese Block"
+  "block.simukraft.cheese_block": "Cheese Block",
+
+  "simukraft.container.constructor": "Constructor",
+
+  "simukraft.gui.general.idle": "Idle",
+  "simukraft.gui.constructor.title": "Building Constructor",
+  "simukraft.gui.constructor.not_chosen": "Not chosen yet",
+  "simukraft.gui.constructor.status": "Current status:",
+  "simukraft.gui.constructor.building": "Building type:",
+  "simukraft.gui.constructor.choose_hire": "Choose an unemployed Sim-U-Folk you want to hire",
+  "simukraft.gui.general.done": "Done",
+  "simukraft.gui.general.cancel": "Cancel",
+  "simukraft.gui.general.ok": "OK",
+  "simukraft.message.need_money_hire": "You need some Sim-U-Credits to employ folks.",
+  "simukraft.gui.general.fire": "Fire",
+  "simukraft.message.folk_spawned": "%1$s has wandered just into the area.",
+  "simukraft.gui.general.hire": "Hire"
 }

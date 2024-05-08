@@ -1,6 +1,7 @@
 package dev.simukraft;
 
 import com.mojang.logging.LogUtils;
+import dev.simukraft.client.ClientConfig;
 import dev.simukraft.entities.folk.FolkDataSerializer;
 import dev.simukraft.entities.folk.ai.FolkSchedule;
 import dev.simukraft.init.*;
@@ -29,11 +30,12 @@ public class SimUKraft {
 
         ModTileEntities.BLOCK_ENTITIES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
-        FolkSchedule.FOLK_SCHEDULE.register(modEventBus);
+        FolkSchedule.FOLK_SCHEDULES.register(modEventBus);
         FolkDataSerializer.DATA_SERIALIZERS.register(modEventBus);
 
         ModSounds.register(modEventBus);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC, MOD_ID + "-server.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, MOD_ID + "-client.toml");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

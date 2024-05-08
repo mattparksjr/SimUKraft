@@ -40,7 +40,7 @@ public class ReqDataC2SPacket {
             SimUKraft.LOGGER.debug("Request Data Packet - Got group info, replying...");
             if (group != null) {
                 SimUKraft.LOGGER.debug("Request Data Packet - sending group info now");
-                ModPackets.sendToPlayer(new GroupUpdateS2CPacket(group.getName(), group.getMoney(), group.getNumSims()), player);
+                ModPackets.sendToPlayer(new GroupUpdateS2CPacket(group.getName(), group.getMoney(), group.getNumSims(), groupID), player);
             } else {
                 SimUKraft.LOGGER.debug("Request Data Packet - failed to get group data replying...");
                 ModPackets.sendToPlayer(new CannotFindGroupS2CPacket(), player);

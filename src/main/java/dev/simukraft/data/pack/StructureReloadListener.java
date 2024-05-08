@@ -56,6 +56,6 @@ public class StructureReloadListener extends SimpleJsonResourceReloadListener {
             }
         }
         structures = structureList;
-        SimUKraft.LOGGER.debug("Loaded {} structures", structureList.size());
+        SimUKraft.LOGGER.info("Loaded {} structures", structureList.size());
     }
 }

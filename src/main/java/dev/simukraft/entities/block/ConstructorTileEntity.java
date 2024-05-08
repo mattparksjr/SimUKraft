@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ConstructorTileEntity extends BlockEntity {
+public class ConstructorTileEntity extends SimTileEntity {
 
     public ConstructorTileEntity(BlockPos pos, BlockState state) {
         super(ModTileEntities.CONSTRUCTOR.get(), pos, state);
@@ -16,4 +16,5 @@ public class ConstructorTileEntity extends BlockEntity {
         ConstructorTileEntity tile = (ConstructorTileEntity) be;
         // 20 times per second.
     }
+
 }

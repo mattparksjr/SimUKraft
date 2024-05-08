@@ -1,6 +1,7 @@
 package dev.simukraft.event;
 
 import dev.simukraft.SimUKraft;
+import dev.simukraft.client.ClientConfig;
 import dev.simukraft.client.renderer.EntityFolkRenderer;
 import dev.simukraft.data.PlayerDataProvider;
 import dev.simukraft.data.sided.ClientRuntime;
@@ -30,7 +31,9 @@ public class ClientEvents {
                         }
                     } else {
                         ClientRuntime.setAllowRequest(false);
-                        Minecraft.getInstance().font.draw(event.getPoseStack(), ClientRuntime.getName() + "(sun) - Population: " + ClientRuntime.getSims() + " Sim-U-Credits: " + ClientRuntime.getMoney(), 2, 2, 0xFFFFFF);
+                        if (ClientConfig.RENDER_OVERLAY.get()) {
+                            Minecraft.getInstance().font.draw(event.getPoseStack(), ClientRuntime.getName() + "(sun) - Population: " + ClientRuntime.getSims() + " Sim-U-Credits: " + ClientRuntime.getMoney(), 2, 2, 0xFFFFFF);
+                        }
                     }
                 }
             });
