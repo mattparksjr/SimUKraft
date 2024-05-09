@@ -2,6 +2,7 @@ package dev.simukraft.client.menu;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.simukraft.client.menu.constructor.ConstructorScreenBase;
+import dev.simukraft.client.menu.employ.HireWorkerScreenType;
 import dev.simukraft.data.PlayerDataProvider;
 import dev.simukraft.entities.block.ConstructorTileEntity;
 import dev.simukraft.net.ModPackets;
@@ -20,6 +21,7 @@ public class ConstructorScreen extends ConstructorScreenBase {
 
     private Button HIRE_BUILDER;
     private Button FIRE_WORKER;
+    private Button CHOOSE_BUILDING;
 
     public ConstructorScreen(BlockEntity entity) {
         super((ConstructorTileEntity) entity);
@@ -29,7 +31,7 @@ public class ConstructorScreen extends ConstructorScreenBase {
     protected void init() {
         Minecraft.getInstance().player.getCapability(PlayerDataProvider.PLAYER_DATA).ifPresent(data -> {
             HIRE_BUILDER = new Button((this.width / 2) - 60, 150, BUTTON_WIDTH, BUTTON_HEIGHT, Component.literal("Hire Builder"), pButton -> {
-                ModPackets.sendToServer(new HireScreenC2SPacket(getEntity().getBlockPos(), data.getGroupID()));
+                ModPackets.sendToServer(new HireScreenC2SPacket(getEntity().getBlockPos(), data.getGroupID(), HireWorkerScreenType.BUILDER));
             });
         });
 
@@ -37,23 +39,27 @@ public class ConstructorScreen extends ConstructorScreenBase {
             ModPackets.sendToServer(new FireScreenC2SPacket(getEntity().getBlockPos()));
         });
 
+        CHOOSE_BUILDING = new Button((this.width / 2) - 180, 150, BUTTON_WIDTH, BUTTON_HEIGHT, Component.literal("Choose Building"), pButton -> {
+
+        });
+
 
         addRenderableWidget(HIRE_BUILDER);
         addRenderableWidget(FIRE_WORKER);
-        addRenderableWidget(new Button((this.width / 2) - 180, 150, BUTTON_WIDTH, BUTTON_HEIGHT, Component.literal("Choose Building"), pButton -> {
-
-        }));
-
+        addRenderableWidget(CHOOSE_BUILDING);
     }
 
     @Override
     public void render(@NotNull PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        drawCenteredString(pPoseStack, this.font, "Please choose a task for this building constructor", width / 2, 100, 0xffffaa);
+        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+
+        drawCenteredString(pPoseStack, Component.translatable("simukraft.gui.constructor.choose_task"), width / 2, 100, 0xffffaa);
 
         if (getEntity().getWorkers().isEmpty()) {
             FIRE_WORKER.active = false;
+        } else {
+            HIRE_BUILDER.active = false;
         }
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
     }
 
 }

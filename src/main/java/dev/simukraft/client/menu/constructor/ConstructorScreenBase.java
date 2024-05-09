@@ -32,7 +32,7 @@ public class ConstructorScreenBase extends ScreenBase {
         String status = Component.translatable("simukraft.gui.general.idle").append(" ").getString();
         String building = Component.translatable("simukraft.gui.constructor.not_chosen").append(" ").getString();
 
-        if(entity.getWorkers().size() > 0) {
+        if(!entity.getWorkers().isEmpty()) {
             status = " the stage";
             building = " building display name";
         }

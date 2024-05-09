@@ -1,4 +1,4 @@
-package dev.simukraft.client.menu;
+package dev.simukraft.client.menu.employ;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.simukraft.SimUKraft;
@@ -18,14 +18,16 @@ import java.util.UUID;
 
 public class HireWorkerScreen extends ScreenBase {
 
-    private ArrayList<UUID> selectedWorkers;
-    private SimTileEntity entity;
+    private final ArrayList<UUID> selectedWorkers;
+    private final SimTileEntity entity;
     private final Screen returnTo;
+    private final HireWorkerScreenType type;
 
-    public HireWorkerScreen(Component component, ScreenBase returnTo, SimTileEntity entity) {
+    public HireWorkerScreen(Component component, ScreenBase returnTo, SimTileEntity entity, HireWorkerScreenType type) {
         super(component);
         this.returnTo = returnTo;
         this.entity = entity;
+        this.type = type;
         selectedWorkers = new ArrayList<>();
     }
 
@@ -59,7 +61,12 @@ public class HireWorkerScreen extends ScreenBase {
         int x = 10, y = 40;
 
         for (UUID folkUUID : ClientRuntime.getFolkDataMap().keySet()) {
-            String xp = "3";
+
+            int xp = 0;
+
+            if(type == HireWorkerScreenType.BUILDER) {
+                xp = (int) ClientRuntime.getFolkDataMap().get(folkUUID).getXpBuilder();
+            }
 
             addRenderableWidget(new Button(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.literal(ClientRuntime.getFolkDataMap().get(folkUUID).getFullname() + " (" + xp + ")"), pButton -> {
                 selectedWorkers.add(folkUUID);
@@ -83,6 +90,10 @@ public class HireWorkerScreen extends ScreenBase {
     @Override
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+
+        if(type == HireWorkerScreenType.BUILDER) {
+            drawCenteredString(pPoseStack, Component.translatable("simukraft.gui.hire.choose_hire").append(" ").append(Component.translatable("simukraft.job.builder")), width / 2, 17, 0xffffff);
+        }
     }
 
 }

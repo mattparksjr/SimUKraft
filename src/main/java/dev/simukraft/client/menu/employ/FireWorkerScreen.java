@@ -1,4 +1,4 @@
-package dev.simukraft.client.menu;
+package dev.simukraft.client.menu.employ;
 
 import dev.simukraft.client.menu.base.ScreenBase;
 import dev.simukraft.data.sided.ClientRuntime;

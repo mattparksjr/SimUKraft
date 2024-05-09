@@ -1,6 +1,7 @@
 package dev.simukraft.net.packet.ui;
 
 import dev.simukraft.SimUKraft;
+import dev.simukraft.client.menu.employ.HireWorkerScreenType;
 import dev.simukraft.data.SimSavedData;
 import dev.simukraft.entities.block.SimTileEntity;
 import dev.simukraft.entities.folk.EntityFolk;
@@ -19,21 +20,24 @@ public class HireScreenC2SPacket {
 
     private final BlockPos entityPos;
     private final UUID groupID;
+    private final HireWorkerScreenType type;
 
-
-    public HireScreenC2SPacket(BlockPos pos, UUID groupID) {
+    public HireScreenC2SPacket(BlockPos pos, UUID groupID, HireWorkerScreenType type) {
         this.entityPos = pos;
         this.groupID = groupID;
+        this.type = type;
     }
 
     public HireScreenC2SPacket(FriendlyByteBuf buf) {
         entityPos = buf.readBlockPos();
         groupID = buf.readUUID();
+        type = buf.readEnum(HireWorkerScreenType.class);
     }
 
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeBlockPos(entityPos);
         buf.writeUUID(groupID);
+        buf.writeEnum(type);
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
@@ -63,7 +67,7 @@ public class HireScreenC2SPacket {
             }
 
             SimUKraft.LOGGER.debug(getClass().getName() + " - Sent all the folk data, telling client ready to open!");
-            ModPackets.sendToPlayer(new OpenHireScreenS2CPacket(entityPos), player);
+            ModPackets.sendToPlayer(new OpenHireScreenS2CPacket(entityPos, type), player);
         });
     }
 }

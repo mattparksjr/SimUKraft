@@ -2,8 +2,9 @@ package dev.simukraft.data.sided;
 
 import dev.simukraft.SimUKraft;
 import dev.simukraft.client.menu.ConstructorScreen;
-import dev.simukraft.client.menu.FireWorkerScreen;
-import dev.simukraft.client.menu.HireWorkerScreen;
+import dev.simukraft.client.menu.employ.FireWorkerScreen;
+import dev.simukraft.client.menu.employ.HireWorkerScreen;
+import dev.simukraft.client.menu.employ.HireWorkerScreenType;
 import dev.simukraft.entities.block.SimTileEntity;
 import dev.simukraft.entities.folk.FolkData;
 import net.minecraft.client.Minecraft;
@@ -49,7 +50,7 @@ public class ClientRuntime {
         }
     }
 
-    public static void openHireScreen(BlockPos pos) {
+    public static void openHireScreen(BlockPos pos, HireWorkerScreenType type) {
         ClientLevel level = Minecraft.getInstance().level;
 
         if (level == null) {
@@ -59,7 +60,7 @@ public class ClientRuntime {
 
         SimTileEntity entity = (SimTileEntity) level.getBlockEntity(pos);
         if (entity != null) {
-            openScreen(new HireWorkerScreen(Component.translatable("simukraft.gui.general.hire"), null, entity));
+            openScreen(new HireWorkerScreen(Component.translatable("simukraft.gui.general.hire"), null, entity, type));
         } else {
             SimUKraft.LOGGER.error("Failed to find block entity at {} while trying to open hire screen", pos.toShortString());
         }
